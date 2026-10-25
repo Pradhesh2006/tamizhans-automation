@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan History - Tamizhan's Security Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <div class="container" style="max-width:800px;">
+        <span class="badge">📋 Scan History</span>
+        <h1>📊 <span>Scan History</span></h1>
+        <p>Welcome, {{ username }}! Here are your previous scans.</p>
+
+        {% if scans %}
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+                <thead>
+                    <tr style="background:#1f2937;">
+                        <th style="padding:12px; color:#00ff8c; text-align:left; font-size:12px;">#</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:left; font-size:12px;">TARGET URL</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">RISK SCORE</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">GRADE</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">PORTS</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">SQLi</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">XSS</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">SSL</th>
+                        <th style="padding:12px; color:#00ff8c; text-align:center; font-size:12px;">DATE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scan in scans %}
+                    <tr style="border-bottom:1px solid #1f2937;">
+                        <td style="padding:10px; color:#8b949e; font-size:12px;">{{ loop.index }}</td>
+                        <td style="padding:10px; color:#c9d1d9; font-size:11px;">{{ scan[2][:30] }}...</td>
+                        <td style="padding:10px; text-align:center;">
+                            <span style="color:{% if scan[3] >= 80 %}#00ff8c{% elif scan[3] >= 50 %}#ffd700{% else %}#ff4757{% endif %}; font-weight:bold;">
+                                {{ scan[3] }}/100
+                            </span>
+                        </td>
+                        <td style="padding:10px; color:#c9d1d9; font-size:11px; text-align:center;">{{ scan[4] }}</td>
+                        <td style="padding:10px; text-align:center; color:#c9d1d9; font-size:12px;">{{ scan[5] }}</td>
+                        <td style="padding:10px; text-align:center;">
+                            {% if scan[6] %}<span style="color:#ff4757;">⚠️</span>{% else %}<span style="color:#00ff8c;">✅</span>{% endif %}
+                        </td>
+                        <td style="padding:10px; text-align:center;">
+                            {% if scan[7] %}<span style="color:#ff4757;">⚠️</span>{% else %}<span style="color:#00ff8c;">✅</span>{% endif %}
+                        </td>
+                        <td style="padding:10px; text-align:center;">
+                            {% if scan[8] %}<span style="color:#00ff8c;">✅</span>{% else %}<span style="color:#ff4757;">❌</span>{% endif %}
+                        </td>
+                        <td style="padding:10px; color:#8b949e; font-size:10px; text-align:center;">{{ scan[9][:10] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="result-box">
+            <p>No scans yet! <a href="/">Start your first scan</a></p>
+        </div>
+        {% endif %}
+
+        <div class="footer-link" style="margin-top:20px;">
+            <a href="/" style="margin-right:20px;">🔍 New Scan</a>
+            <a href="/logout">🚪 Logout</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='matrix.js') }}"></script>
+</body>
+</html>

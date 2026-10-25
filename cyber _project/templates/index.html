@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tamizhan's Security Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span class="badge">⚡ Cyber Security Tool</span>
+            <div style="display:flex; gap:15px;">
+                <a href="/history" style="font-size:12px;">📋 History</a>
+                <a href="/logout" style="font-size:12px; color:#ff4757;">🚪 Logout</a>
+            </div>
+        </div>
+        <h1>🛡️ Tamizhan's <span>Security Automation</span></h1>
+        <p>Welcome, <strong style="color:#00ff8c;">{{ username }}</strong>! Enter a target URL to scan.</p>
+
+        <form action="/scan" method="POST">
+            <input type="text" name="target_url" placeholder="https://example.com" required>
+            <button type="submit">Start Scan</button>
+        </form>
+
+        <div class="footer-link">
+            <a href="/password-check">🔐 Check Password Security</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='matrix.js') }}"></script>
+    <script src="{{ url_for('static', filename='progress.js') }}"></script>
+</body>
+</html>

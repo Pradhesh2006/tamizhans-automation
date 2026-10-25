@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Results - Tamizhan's Security Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span class="badge">⚡ Scan Complete</span>
+            <div style="display:flex; gap:15px;">
+                <a href="/history" style="font-size:12px;">📋 History</a>
+                <a href="/logout" style="font-size:12px; color:#ff4757;">🚪 Logout</a>
+            </div>
+        </div>
+        <h1>📊 Scan <span>Results</span></h1>
+        <p>Target: <strong>{{ target }}</strong></p>
+
+        <div class="result-box risk-score-box">
+            <h3>🎯 Overall Risk Score</h3>
+            <p class="score-number">{{ risk.score }}/100</p>
+            <p>{{ risk.grade }}</p>
+        </div>
+
+        <div class="result-box">
+            <h3>🔌 Port Scan</h3>
+            <p>IP: {{ ports.ip }}</p>
+            {% if ports.open_ports %}
+                <ul>{% for p in ports.open_ports %}<li>Port {{ p.port }} — <span class="danger">{{ p.status }}</span></li>{% endfor %}</ul>
+            {% else %}<p class="safe">✅ No open ports found</p>{% endif %}
+        </div>
+
+        <div class="result-box">
+            <h3>💉 SQL Injection</h3>
+            {% if sqli.vulnerable %}<p class="danger">⚠️ Vulnerable</p>
+            {% else %}<p class="safe">✅ Safe</p>{% endif %}
+        </div>
+
+        <div class="result-box">
+            <h3>⚡ XSS Test</h3>
+            {% if xss.vulnerable %}<p class="danger">⚠️ Vulnerable</p>
+            {% else %}<p class="safe">✅ Safe</p>{% endif %}
+        </div>
+
+        <div class="result-box">
+            <h3>🔒 Security Headers</h3>
+            {% if headers.error %}<p>{{ headers.error }}</p>
+            {% else %}
+                <ul>{% for h in headers.results %}<li>{{ h.header }} — {{ h.status }}</li>{% endfor %}</ul>
+            {% endif %}
+        </div>
+
+        <div class="result-box">
+            <h3>🔏 SSL/TLS Certificate</h3>
+            {% if ssl.valid %}
+                <p class="safe">✅ Valid — Issuer: {{ ssl.issuer }}</p>
+                <p>Expires: {{ ssl.expires }} ({{ ssl.days_left }} days left)</p>
+            {% else %}<p class="danger">❌ {{ ssl.error }}</p>{% endif %}
+        </div>
+
+        <div class="footer-link">
+            <a href="/download-report" style="margin-right:20px;">📄 Download PDF Report</a>
+            <a href="/history" style="margin-right:20px;">📋 View History</a>
+            <a href="/">⬅️ Scan Another URL</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='matrix.js') }}"></script>
+</body>
+</html>
