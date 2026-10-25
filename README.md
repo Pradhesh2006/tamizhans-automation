@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Tamizhan's Security Automation
 
 A Flask-based web application for basic security checks on websites you own or are authorized to assess. It combines a small set of website checks with account-based scan history and a password-strength page.
@@ -73,6 +73,6 @@ users.db                  SQLite database (created/updated by the app)
 - Only scan systems for which you have explicit authorization. Scans make network requests to the supplied host and test common ports.
 - The password breach check sends only the first five characters of the password's SHA-1 hash to the Pwned Passwords range API; the full password is not sent by that lookup. Avoid entering passwords you currently use on sensitive accounts into a demo application.
 - This project is configured for local development: `app.py` uses Flask's development server with debug mode enabled and a hard-coded session secret. Do not expose it to the public internet or use it as-is in production. Before deployment, disable debug mode, configure a strong secret outside source control, and review authentication and password storage.
-=======
+  
 # tamizhans-automation
->>>>>>> 0d52070ab4aacf86d01f873d5aa34e833eb08667
+ 0d52070ab4aacf86d01f873d5aa34e833eb08667
